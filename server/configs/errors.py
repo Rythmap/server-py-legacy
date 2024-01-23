@@ -1,0 +1,26 @@
+# Codes
+INVALID_USERNAME_OR_PASSWORD = 400
+INVALID_USERNAME = 401
+INVALID_USERNAME_LENGTH = 402
+INVALID_PASSWORD_LENGTH = 403
+NO_USER = 404
+INVALID_TOKEN = 405
+USERNAME_ALREADY_REGISTERED = 406
+USERNAME_CHANGE_FAILED = 407
+INVALID_RECOVERY_TOKEN = 408
+EXPIRED_OR_INVALID_TOKEN = 409
+EMAIL_ALREADY_EXISTS = 410
+INVALID_USERNAME_OR_EMAIL = 411
+# Descriptions
+INVALID_USERNAME_OR_PASSWORD_DETAIL = "Invalid username or password"
+INVALID_USERNAME_DETAIL = "Username must contain only English characters and numbers"
+INVALID_USERNAME_LENGTH_DETAIL = "Username length must be between 3 and 32 characters"
+INVALID_PASSWORD_LENGTH_DETAIL = "Password length must be between 6 and 64 characters"
+INVALID_TOKEN_DETAIL = "Invalid token"
+NO_USER_DETAIL = "There is no user with this nickname"
+USERNAME_ALREADY_REGISTERED_DETAIL = "Username already registered"
+USERNAME_CHANGE_FAILED_DETAIL = "Username change failed"
+INVALID_RECOVERY_TOKEN_DETAIL = "Recover token is invalid"
+EXPIRED_OR_INVALID_TOKEN_DETAIL = "Token is expired or invalid"
+EMAIL_ALREADY_EXISTS_DETAIL = "Email already exists"
+INVALID_USERNAME_OR_EMAIL_DETAIL = "Invalid username or email"
