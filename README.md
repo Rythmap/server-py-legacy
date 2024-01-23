@@ -1,2 +1,2 @@
-# Melomap-server
+# Melomap server
 Python server on FastAPI for Melomap
