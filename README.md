@@ -1,2 +1,2 @@
-# Melomap server
-Python server on FastAPI for Melomap
+# Melodymap server
+Python server on FastAPI for Medylomap
