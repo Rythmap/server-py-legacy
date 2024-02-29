@@ -1,9 +1,10 @@
 from pydantic import BaseModel, EmailStr
+from typing import Union, Literal
 
 class Account(BaseModel):
     username: str
     password: str
-    email: EmailStr
+    email: Union[EmailStr, Literal[""]]
 
 
 class AccountLogin(BaseModel):

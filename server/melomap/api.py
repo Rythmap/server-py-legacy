@@ -16,7 +16,9 @@ async def register(account: Account):
     validate_username_length(account.username)
     validate_password_length(account.password)
     check_existing_username(account.username)
-    check_existing_email(account.email)
+
+    if account.email != "":
+        check_existing_email(account.email)
 
     hashed_password = pwd_context.hash(account.password)
     access_token = create_access_token()
