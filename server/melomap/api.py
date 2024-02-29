@@ -10,7 +10,27 @@ router = APIRouter()
 def create_access_token():
     return str(uuid.uuid4())
 
-@router.post("/account.register")
+@router.post(
+    "/account.register",
+    summary="Register a new account",
+    response_description="The access token for the new account",
+    responses={
+        200: {
+            "description": "The access token for the new account",
+            "content": {
+                "application/json": {
+                    "example": {"access_token": "example_token", "token_type": "bearer"}
+                }
+            }
+        },
+        INVALID_USERNAME_OR_PASSWORD: {"description": INVALID_USERNAME_OR_PASSWORD_DETAIL},
+        INVALID_USERNAME: {"description": INVALID_USERNAME_DETAIL},
+        INVALID_USERNAME_LENGTH: {"description": INVALID_USERNAME_LENGTH_DETAIL},
+        INVALID_PASSWORD_LENGTH: {"description": INVALID_PASSWORD_LENGTH_DETAIL},
+        USERNAME_ALREADY_REGISTERED: {"description": USERNAME_ALREADY_REGISTERED_DETAIL},
+        EMAIL_ALREADY_EXISTS: {"description": EMAIL_ALREADY_EXISTS_DETAIL},
+    },
+)
 async def register(account: Account):
     validate_username(account.username)
     validate_username_length(account.username)
@@ -35,20 +55,68 @@ async def register(account: Account):
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@router.post("/account.login")
+@router.post(
+    "/account.login",
+    summary="Login to an account",
+    response_description="The access token for the logged in account",
+    responses={
+        200: {
+            "description": "The access token for the logged in account",
+            "content": {
+                "application/json": {
+                    "example": {"access_token": "example_token", "token_type": "bearer"}
+                }
+            }
+        },
+        INVALID_USERNAME_OR_PASSWORD: {"description": INVALID_USERNAME_OR_PASSWORD_DETAIL},
+        NO_USER: {"description": NO_USER_DETAIL},
+    },
+)
 async def login(account: AccountLogin):
     user = get_user_by_username_or_email(account.username)
     validate_user_credentials(user, account.password)
     return {"access_token": user["token"], "token_type": "bearer"}
 
 
-@router.get("/account.info")
+@router.get(
+    "/account.info",
+    summary="Get account info",
+    response_description="The account info",
+    responses={
+        200: {
+            "description": "The account info",
+            "content": {
+                "application/json": {
+                    "example": {"token_valid": True, "username": "example_username", "email": "example@email.com", "email_confirmed": False}
+                }
+            }
+        },
+        INVALID_TOKEN: {"description": INVALID_TOKEN_DETAIL},
+        NO_USER: {"description": NO_USER_DETAIL},
+    },
+)
 async def login(token: str):
     user = get_user_by_token(token)
     return {"token_valid": True, "username": user["username"], "email": user["email"],
             "email_confirmed": user["email_confirmed"]}
 
-@router.post("/account.token.reset")
+@router.post(
+    "/account.token.reset",
+    summary="Reset account token",
+    response_description="The new access token",
+    responses={
+        200: {
+            "description": "The new access token",
+            "content": {
+                "application/json": {
+                    "example": {"access_token": "new_example_token", "token_type": "bearer"}
+                }
+            }
+        },
+        INVALID_USERNAME_OR_PASSWORD: {"description": INVALID_USERNAME_OR_PASSWORD_DETAIL},
+        NO_USER: {"description": NO_USER_DETAIL},
+    },
+)
 async def reset_token(account: AccountLogin):
     user = get_user_by_username(account.username)
     validate_user_credentials(user, account.password)
@@ -59,7 +127,25 @@ async def reset_token(account: AccountLogin):
     )
     return {"access_token": new_token, "token_type": "bearer"}
 
-@router.post("/account.changenick")
+@router.post(
+    "/account.changenick",
+    summary="Change account nickname",
+    response_description="The status of the nickname change",
+    responses={
+        200: {
+            "description": "The status of the nickname change",
+            "content": {
+                "application/json": {
+                    "example": {"status": "username changed"}
+                }
+            }
+        },
+        INVALID_USERNAME: {"description": INVALID_USERNAME_DETAIL},
+        INVALID_USERNAME_LENGTH: {"description": INVALID_USERNAME_LENGTH_DETAIL},
+        USERNAME_ALREADY_REGISTERED: {"description": USERNAME_ALREADY_REGISTERED_DETAIL},
+        USERNAME_CHANGE_FAILED: {"description": USERNAME_CHANGE_FAILED_DETAIL},
+    },
+)
 async def change_nickname(change_nickname: ChangeNickname):
     validate_username(change_nickname.new_username)
     validate_username_length(change_nickname.new_username)
@@ -74,7 +160,24 @@ async def change_nickname(change_nickname: ChangeNickname):
     return {"status": "username changed"}
 
 
-@router.post("/account.changepswd")
+@router.post(
+    "/account.changepswd",
+    summary="Change account password",
+    response_description="The status of the password change",
+    responses={
+        200: {
+            "description": "The status of the password change",
+            "content": {
+                "application/json": {
+                    "example": {"status": "password changed"}
+                }
+            }
+        },
+        INVALID_USERNAME_OR_PASSWORD: {"description": INVALID_USERNAME_OR_PASSWORD_DETAIL},
+        INVALID_PASSWORD_LENGTH: {"description": INVALID_PASSWORD_LENGTH_DETAIL},
+        NO_USER: {"description": NO_USER_DETAIL},
+    },
+)
 async def change_password(change_password: ChangePassword):
     user = get_user_by_username(change_password.username)
     validate_user_credentials(user, change_password.current_password)
@@ -87,7 +190,23 @@ async def change_password(change_password: ChangePassword):
     return {"status": "password changed"}
 
 
-@router.delete("/account.delete")
+@router.delete(
+    "/account.delete",
+    summary="Delete an account",
+    response_description="The status of the account deletion",
+    responses={
+        200: {
+            "description": "The status of the account deletion",
+            "content": {
+                "application/json": {
+                    "example": {"status": "account deleted"}
+                }
+            }
+        },
+        INVALID_USERNAME_OR_PASSWORD: {"description": INVALID_USERNAME_OR_PASSWORD_DETAIL},
+        NO_USER: {"description": NO_USER_DETAIL},
+    },
+)
 async def delete_account(account: AccountLogin):
     user = get_user_by_username(account.username)
     validate_user_credentials(user, account.password)
