@@ -11,7 +11,7 @@ from configs.email import *
 
 router = APIRouter()
 
-@router.post("/melomap/api/account.confirm_email")
+@router.post("?account.confirm_email")
 async def confirm_email(confirm_email: ConfirmEmail, background_tasks: BackgroundTasks):
     user = get_user_by_token(confirm_email.token)
     check_email_confirmed(user)
@@ -38,7 +38,7 @@ async def confirm_email(confirm_email: ConfirmEmail, background_tasks: Backgroun
     return {"status": "email confirmation initiated"}
 
 
-@router.get("/melomap/api/account.confirm_email_link")
+@router.get("?account.confirm_email_link")
 async def confirm_email_link(confirm_token: str = Query(...)):
     confirm_user = get_user_by_confirm_token(confirm_token)
     if confirm_user["confirm_token"] == None or confirm_user["expiration_time"] < datetime.utcnow():

@@ -11,7 +11,7 @@ from configs.email import *
 
 router = APIRouter()
 
-@router.post("/melomap/api/account.recoverpswd")
+@router.post("?account.recoverpswd")
 async def recover_password(recover_password: RecoverPassword, background_tasks: BackgroundTasks):
     account = get_user_by_username(recover_password.username)
     recovery_token = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
@@ -22,7 +22,7 @@ async def recover_password(recover_password: RecoverPassword, background_tasks: 
         "recovery_token": recovery_token,
         "expiration_time": expiration_time
     })
-    print([account["email"]])
+
     message = MessageSchema(
         subject="Password Recovery",
         recipients=[account["email"]],
@@ -36,13 +36,13 @@ async def recover_password(recover_password: RecoverPassword, background_tasks: 
     return {"status": "password recovery initiated"}
 
 
-@router.post("/melomap/api/account.confirm_recovery")
+@router.post("?account.confirm_recovery")
 async def confirm_recovery(confirm_recovery: ConfirmRecovery):
     recovery_token = confirm_recovery.recovery_token
     new_password = confirm_recovery.new_password
     validate_password_length(new_password)
     recover_user = get_user_by_recovery_token(recovery_token)
-    print(recover_user["recovery_token"])
+
     if recover_user["recovery_token"] == None or recover_user["expiration_time"] < datetime.utcnow():
         raise HTTPException(status_code=EXPIRED_OR_INVALID_TOKEN, detail=EXPIRED_OR_INVALID_TOKEN_DETAIL)
 

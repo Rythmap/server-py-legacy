@@ -6,7 +6,7 @@ from yandex_music import Client
 router = APIRouter()
 
 @router.get(
-    "/yandex.current_track",
+    "?yandex.current_track",
     summary="Get current song from Yandex Music",
     description="This endpoint gets the user's current song in Yandex Music. It requires a Yandex Music token.",
     responses={

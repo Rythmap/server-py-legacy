@@ -5,14 +5,14 @@ from fastapi import HTTPException, FastAPI, Query
 
 router = APIRouter()
 
-@router.get("/spotify.current_track")
+@router.get("?spotify.current_track")
 async def spotify_auth():
     scope = ["user-read-currently-playing"]
     auth_url = f"https://accounts.spotify.com/authorize?response_type=code&client_id={spotify_client_id}&redirect_uri={spotify_redirect_uri}&scope={' '.join(scope)}"
     return {"auth_url": auth_url}
 
 
-@router.get("/spotify/callback")
+@router.get("?spotify/callback")
 async def spotify_callback(code):
     headers = get_spotify_access_token(code)
 
@@ -35,6 +35,6 @@ def get_spotify_access_token(auth_code: str):
         },
         auth=(spotify_client_id, spotify_client_secret),
     )
-    print(response.text)
+
     access_token = response.json()["access_token"]
     return {"Authorization": "Bearer " + access_token}

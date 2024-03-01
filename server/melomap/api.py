@@ -11,7 +11,7 @@ def create_access_token():
     return str(uuid.uuid4())
 
 @router.post(
-    "/account.register",
+    "?account.register",
     summary="Register a new account",
     response_description="The access token for the new account",
     responses={
@@ -56,7 +56,7 @@ async def register(account: Account):
 
 
 @router.post(
-    "/account.login",
+    "?account.login",
     summary="Login to an account",
     response_description="The access token for the logged in account",
     responses={
@@ -79,7 +79,7 @@ async def login(account: AccountLogin):
 
 
 @router.get(
-    "/account.info",
+    "?account.info",
     summary="Get account info",
     response_description="The account info",
     responses={
@@ -101,7 +101,7 @@ async def login(token: str):
             "email_confirmed": user["email_confirmed"]}
 
 @router.post(
-    "/account.token.reset",
+    "?account.token.reset",
     summary="Reset account token",
     response_description="The new access token",
     responses={
@@ -128,7 +128,7 @@ async def reset_token(account: AccountLogin):
     return {"access_token": new_token, "token_type": "bearer"}
 
 @router.post(
-    "/account.changenick",
+    "?account.changenick",
     summary="Change account nickname",
     response_description="The status of the nickname change",
     responses={
@@ -161,7 +161,7 @@ async def change_nickname(change_nickname: ChangeNickname):
 
 
 @router.post(
-    "/account.changepswd",
+    "?account.changepswd",
     summary="Change account password",
     response_description="The status of the password change",
     responses={
@@ -191,7 +191,7 @@ async def change_password(change_password: ChangePassword):
 
 
 @router.delete(
-    "/account.delete",
+    "?account.delete",
     summary="Delete an account",
     response_description="The status of the account deletion",
     responses={

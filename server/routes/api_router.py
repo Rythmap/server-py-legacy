@@ -6,7 +6,7 @@ from melomap.ws import router as wsrouter
 
 router = APIRouter(tags=["Melomap"])
 
-api_prefix = "/api/melomap"
+api_prefix = "/melomap"
 
 router.include_router(api, prefix=api_prefix)
 router.include_router(emailconfirm, prefix=api_prefix)
