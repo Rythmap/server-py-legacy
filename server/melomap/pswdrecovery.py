@@ -11,7 +11,7 @@ from configs.email import *
 
 router = APIRouter()
 
-@router.post("?account.recoverpswd")
+@router.post(f"{path_prefix_end}account.recoverpswd")
 async def recover_password(recover_password: RecoverPassword, background_tasks: BackgroundTasks):
     account = get_user_by_username(recover_password.username)
     recovery_token = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
@@ -36,7 +36,7 @@ async def recover_password(recover_password: RecoverPassword, background_tasks: 
     return {"status": "password recovery initiated"}
 
 
-@router.post("?account.confirm_recovery")
+@router.post(f"{path_prefix_end}account.confirm_recovery")
 async def confirm_recovery(confirm_recovery: ConfirmRecovery):
     recovery_token = confirm_recovery.recovery_token
     new_password = confirm_recovery.new_password
