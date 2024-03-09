@@ -30,7 +30,8 @@ class AccountUpdater:
                         (account_collection.find({}, {"_id": 1, "username": 1})),
                     )
                 )
-                new_accounts = {k: v for d in new_accounts for k, v in d.items()}
+                new_accounts = {
+                    k: v for d in new_accounts for k, v in d.items()}
                 self.accounts.update(new_accounts)
             else:
                 self.accounts = list(
@@ -44,7 +45,8 @@ class AccountUpdater:
                         (account_collection.find({}, {"_id": 1, "username": 1})),
                     )
                 )
-                self.accounts = {k: v for d in self.accounts for k, v in d.items()}
+                self.accounts = {
+                    k: v for d in self.accounts for k, v in d.items()}
             print(self.accounts, type(self.accounts))
             await asyncio.sleep(self.interval)
 
@@ -57,6 +59,23 @@ async def startup_event():
     asyncio.create_task(account_updater.update_accounts())
 
 
+def validate_geolocation(geolocation):
+    if geolocation is None:
+        return None
+    if not isinstance(geolocation, dict):
+        return None
+    if 'latitude' not in geolocation or 'longitude' not in geolocation:
+        return None
+    try:
+        lat = float(geolocation['latitude'])
+        lon = float(geolocation['longitude'])
+        if lat < -90 or lat > 90 or lon < -180 or lon > 180:
+            return None
+    except ValueError:
+        return None
+    return geolocation
+
+
 @router.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
@@ -65,7 +84,7 @@ async def websocket_endpoint(websocket: WebSocket):
         await websocket.send_text(str(data))
         data = json.loads(data)
         access_token = data.get("access_token")
-        geolocation = data.get("geolocation")
+        geolocation = validate_geolocation(data.get("geolocation"))
 
         if access_token:
             user_doc = get_user_by_token(access_token)
