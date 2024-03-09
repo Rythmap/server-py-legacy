@@ -5,3 +5,5 @@ update_accounts_interval = 10
 websocket_interval = 1
 
 path_prefix_end = "/"
+
+max_distance = 5
