@@ -26,7 +26,7 @@ The length of the password must be between 6 and 64 characters.
 NO_USER = 404
 """No user
 
-There is no user with this nickname.
+There is no user with this username.
 """
 
 INVALID_TOKEN = 405
@@ -101,10 +101,10 @@ INVALID_TOKEN_DETAIL = "Invalid token"
 The token is invalid or expired.
 """
 
-NO_USER_DETAIL = "There is no user with this nickname" 
+NO_USER_DETAIL = "There is no user with this username" 
 """No user
 
-There is no user with this nickname.
+There is no user with this username.
 """
 
 USERNAME_ALREADY_REGISTERED_DETAIL = "Username already registered" 

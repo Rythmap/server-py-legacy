@@ -19,12 +19,12 @@ class AccountUpdater:
         """Update the accounts dictionary with the current data from the database.
 
         The accounts dictionary has the user's _id as key and a dictionary with
-        nickname and geolocation as value.
+        username and geolocation as value.
         """
         # Initialize the accounts dictionary with the data from the database
         new_accounts = {
             str(x["_id"]): {
-                "nickname": x["username"],
+                "username": x["username"],
                 "geolocation": None
             }
             for x in account_collection.find({}, {"_id": 1, "username": 1})
@@ -37,7 +37,7 @@ class AccountUpdater:
             # Add the new accounts to the accounts dictionary
             new_accounts = {
                 str(x["_id"]): {
-                    "nickname": x["username"],
+                    "username": x["username"],
                     "geolocation": self.accounts.get(str(x["_id"]), {}).get(
                         "geolocation", None
                     )

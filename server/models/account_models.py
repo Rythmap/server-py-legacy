@@ -18,7 +18,7 @@ class ChangePassword(BaseModel):
     new_password: str
 
 
-class ChangeNickname(BaseModel):
+class ChangeUsername(BaseModel):
     token: str
     new_username: str
 
