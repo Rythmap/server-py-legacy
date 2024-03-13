@@ -1,5 +1,5 @@
-requests~=2.31.0
-fastapi~=0.104.1
+requests
+fastapi
 fastapi_mail
 uvicorn
 yandex_music
