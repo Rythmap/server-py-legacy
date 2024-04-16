@@ -1,21 +1,23 @@
-from configs.errors import *
+
 import re
 from fastapi import HTTPException
-from configs.mongo import *
 
-def validate_username(username: str):
-    if not re.match("^[a-zA-Z0-9]*$", username):
+from utils.config_parser import *
+from utils.errors import *
+
+def validate_nickname(nickname: str):
+    if not re.match("^[a-zA-Z0-9]*$", nickname):
         raise HTTPException(
-            status_code=INVALID_USERNAME,
-            detail=INVALID_USERNAME_DETAIL,
+            status_code=INVALID_NICKNAME,
+            detail=INVALID_NICKNAME_DETAIL,
         )
 
 
-def validate_username_length(username: str):
-    if len(username) < 3 or len(username) > 32:
+def validate_nickname_length(nickname: str):
+    if len(nickname) < 3 or len(nickname) > 32:
         raise HTTPException(
-            status_code=INVALID_USERNAME_LENGTH,
-            detail=INVALID_USERNAME_LENGTH_DETAIL,
+            status_code=INVALID_NICKNAME_LENGTH,
+            detail=INVALID_NICKNAME_LENGTH_DETAIL,
         )
 
 
@@ -27,16 +29,16 @@ def validate_password_length(password: str):
         )
 
 
-def check_existing_username(username: str):
-    if account_collection.find_one({"username": username}):
+def check_existing_nickname(nickname: str):
+    if account_collection.find_one({"nickname": nickname}):
         raise HTTPException(
-            status_code=USERNAME_ALREADY_REGISTERED,
-            detail=USERNAME_ALREADY_REGISTERED_DETAIL,
+            status_code=NICKNAME_ALREADY_REGISTERED,
+            detail=NICKNAME_ALREADY_REGISTERED_DETAIL,
         )
 
 
-def get_user_by_username(username: str):
-    user = account_collection.find_one({"username": username})
+def get_user_by_nickname(nickname: str):
+    user = account_collection.find_one({"nickname": nickname})
     if not user:
         raise HTTPException(status_code=NO_USER, detail=NO_USER_DETAIL)
     return user
@@ -65,7 +67,7 @@ def get_user_by_confirm_token(confirm_token: str):
 
 def validate_user_credentials(user, password):
     if not user or not pwd_context.verify(password, user["password"]):
-        raise HTTPException(status_code=INVALID_USERNAME_OR_PASSWORD, detail=INVALID_USERNAME_OR_PASSWORD_DETAIL)
+        raise HTTPException(status_code=INVALID_NICKNAME_OR_PASSWORD, detail=INVALID_NICKNAME_OR_PASSWORD_DETAIL)
 
 
 def check_existing_email(email: str):
@@ -80,11 +82,11 @@ def check_email_confirmed(user):
         raise HTTPException(status_code=EMAIL_ALREADY_CONFIRMED, detail=EMAIL_ALREADY_CONFIRMED_DETAIL)
 
 
-def get_user_by_username_or_email(username):
-    if "@" in username:
-        user = account_collection.find_one({"email": username})
+def get_user_by_nickname_or_email(nickname):
+    if "@" in nickname:
+        user = account_collection.find_one({"email": nickname})
     else:
-        user = account_collection.find_one({"username": username})
+        user = account_collection.find_one({"nickname": nickname})
     if not user:
-        raise HTTPException(status_code=INVALID_USERNAME_OR_EMAIL, detail=INVALID_USERNAME_OR_EMAIL_DETAIL)
+        raise HTTPException(status_code=INVALID_NICKNAME_OR_EMAIL, detail=INVALID_NICKNAME_OR_EMAIL_DETAIL)
     return user

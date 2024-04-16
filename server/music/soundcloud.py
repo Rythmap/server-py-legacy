@@ -1,11 +1,10 @@
-from fastapi import APIRouter
-from typing import Optional
-from fastapi import HTTPException, FastAPI, Query
+from fastapi import APIRouter, FastAPI, HTTPException, Query
+import requests
 
 router = APIRouter()
 
 @router.get(
-    "?soundcloud.current_track",
+    "/soundcloud.current_track",
     summary="Get current song from SoundCloud",
     description="This endpoint gets the user's current song in SoundCloud. It requires SoundCloud client_id and oauth.",
     responses={

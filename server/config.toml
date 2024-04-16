@@ -1,0 +1,26 @@
+server_address = ""
+update_accounts_interval = 10
+websocket_interval = 1
+path_prefix_end = "/"
+max_distance = 5
+
+spotify_client_id = ""
+spotify_client_secret = ""
+spotify_redirect_uri = ""
+
+mongo_private_url = "mongodb://localhost:27017/"
+
+email_enabled = false
+
+[fastapi_mail]
+MAIL_NICKNAME = ""
+MAIL_PASSWORD = ""
+MAIL_FROM = ""
+MAIL_PORT = 587
+MAIL_SERVER = ""
+MAIL_FROM_NAME = ""
+MAIL_STARTTLS = true
+MAIL_SSL_TLS = false
+USE_CREDENTIALS = true
+VALIDATE_CERTS = true
+

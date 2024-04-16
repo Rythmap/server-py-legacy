@@ -1,11 +1,12 @@
 import asyncio
-from fastapi import APIRouter, WebSocket, WebSocketDisconnect
-from configs.mongo import *
-from configs.app_config import *
 import json
-from utils.validators import *
 from typing import Optional
 
+from fastapi import APIRouter, WebSocket, WebSocketDisconnect
+
+from utils.config_parser import *
+from utils.errors import *
+from utils.validators import *
 
 router = APIRouter()
 
@@ -19,15 +20,15 @@ class AccountUpdater:
         """Update the accounts dictionary with the current data from the database.
 
         The accounts dictionary has the user's _id as key and a dictionary with
-        username and geolocation as value.
+        nickname and geolocation as value.
         """
         # Initialize the accounts dictionary with the data from the database
         new_accounts = {
             str(x["_id"]): {
-                "username": x["username"],
+                "nickname": x["nickname"],
                 "geolocation": None
             }
-            for x in account_collection.find({}, {"_id": 1, "username": 1})
+            for x in account_collection.find({}, {"_id": 1, "nickname": 1})
         }
 
         # Update the accounts dictionary with the new data from the database
@@ -37,12 +38,12 @@ class AccountUpdater:
             # Add the new accounts to the accounts dictionary
             new_accounts = {
                 str(x["_id"]): {
-                    "username": x["username"],
+                    "nickname": x["nickname"],
                     "geolocation": self.accounts.get(str(x["_id"]), {}).get(
                         "geolocation", None
                     )
                 }
-                for x in account_collection.find({}, {"_id": 1, "username": 1})
+                for x in account_collection.find({}, {"_id": 1, "nickname": 1})
             }
 
             # Update the accounts dictionary with the new data
@@ -106,7 +107,8 @@ def validate_geolocation(geolocation: dict) -> Optional[dict]:
 
     return geolocation
 
-from math import radians, cos, sin, asin, sqrt
+from math import asin, cos, radians, sin, sqrt
+
 
 def haversine(lon1, lat1, lon2, lat2):
     """

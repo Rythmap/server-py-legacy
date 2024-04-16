@@ -1,4 +1,4 @@
-from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
+from fastapi_mail import FastMail, MessageSchema
 from fastapi import BackgroundTasks
 from utils.validators import *
 from fastapi import APIRouter
@@ -6,18 +6,18 @@ from models.account_models import *
 import random
 import string
 from datetime import datetime, timedelta
-from configs.app_config import *
-from configs.email import *
+from utils.config_parser import *
+from utils.errors import *
 
 router = APIRouter()
 
 @router.post(f"{path_prefix_end}account.recoverpswd")
 async def recover_password(recover_password: RecoverPassword, background_tasks: BackgroundTasks):
-    account = get_user_by_username(recover_password.username)
+    account = get_user_by_nickname(recover_password.nickname)
     recovery_token = ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(6))
     expiration_time = datetime.utcnow() + timedelta(hours=1)
     recovery_token_collection.insert_one({
-        "username": recover_password.username,
+        "nickname": recover_password.nickname,
         "email": account["email"],
         "recovery_token": recovery_token,
         "expiration_time": expiration_time
@@ -46,10 +46,10 @@ async def confirm_recovery(confirm_recovery: ConfirmRecovery):
     if recover_user["recovery_token"] == None or recover_user["expiration_time"] < datetime.utcnow():
         raise HTTPException(status_code=EXPIRED_OR_INVALID_TOKEN, detail=EXPIRED_OR_INVALID_TOKEN_DETAIL)
 
-    username = recover_user["username"]
+    nickname = recover_user["nickname"]
 
     hashed_password = pwd_context.hash(new_password)
-    account_collection.update_one({"username": username}, {"$set": {"password": hashed_password}})
+    account_collection.update_one({"nickname": nickname}, {"$set": {"password": hashed_password}})
 
     recovery_token_collection.delete_one({"recovery_token": recover_user["recovery_token"]})
 

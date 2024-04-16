@@ -1,34 +1,42 @@
-from pydantic import BaseModel, EmailStr
-from typing import Union, Literal
+from typing import Literal, Union
 
-class Account(BaseModel):
-    username: str
+from pydantic import BaseModel, EmailStr
+
+
+class Register(BaseModel):
+    nickname: str
     password: str
     email: Union[EmailStr, Literal[""]]
 
 
-class AccountLogin(BaseModel):
-    username: str
+class Login(BaseModel):
+    nickname: str
+    password: str
+
+
+class ResetToken(BaseModel):
+    nickname: str
+    password: str
+
+
+class DeleteAccount(BaseModel):
+    nickname: str
     password: str
 
 
 class ChangePassword(BaseModel):
-    username: str
+    nickname: str
     current_password: str
     new_password: str
 
 
-class ChangeUsername(BaseModel):
+class ChangeNickname(BaseModel):
     token: str
-    new_username: str
+    new_nickname: str
 
 
 class RecoverPassword(BaseModel):
-    username: str
-
-
-class Token(BaseModel):
-    token: str
+    nickname: str
 
 
 class ConfirmEmail(BaseModel):

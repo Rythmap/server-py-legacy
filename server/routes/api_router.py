@@ -1,15 +1,25 @@
 from fastapi import APIRouter
-from melomap.api import router as api
-from melomap.emailconfirm import router as emailconfirm
-from melomap.pswdrecovery import router as pswdrecovery
-from melomap.ws import router as wsrouter
 
-router = APIRouter(tags=["Melomap"])
+from api.account.change_nickname import router as change_nickname
+from api.account.change_password import router as change_password
+from api.account.delete import router as delete
+from api.account.info import router as info
+from api.account.login import router as login
+from api.account.register import router as register
+from api.account.reset_token import router as reset_token
+from api.account.email_confirm import router as email_confirm
+from api.account.pswdrecovery import router as pswdrecovery
 
-api_prefix = "/melomap"
+router = APIRouter(tags=["Rythmap"])
 
-router.include_router(api, prefix=api_prefix)
-router.include_router(emailconfirm, prefix=api_prefix)
-router.include_router(pswdrecovery, prefix=api_prefix)
-router.include_router(wsrouter, prefix=api_prefix)
+api_prefix = "/rythmap"
 
+router.include_router(register)
+router.include_router(login)
+router.include_router(info)
+router.include_router(reset_token)
+router.include_router(change_nickname)
+router.include_router(change_password)
+router.include_router(delete)
+router.include_router(email_confirm)
+router.include_router(pswdrecovery)

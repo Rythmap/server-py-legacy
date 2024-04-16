@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from melomap.ws import router as wsrouter
+
+from api.ws import router as wsrouter
 
 router = APIRouter(tags=["Websocket"])
 

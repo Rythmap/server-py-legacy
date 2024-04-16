@@ -1,18 +1,18 @@
 from fastapi import APIRouter
 from typing import Optional
 from fastapi import HTTPException, FastAPI, Query
-
-
+from utils.config_parser import *
+import requests
 router = APIRouter()
 
-@router.get("?spotify.current_track")
+@router.get("/spotify.current_track")
 async def spotify_auth():
     scope = ["user-read-currently-playing"]
     auth_url = f"https://accounts.spotify.com/authorize?response_type=code&client_id={spotify_client_id}&redirect_uri={spotify_redirect_uri}&scope={' '.join(scope)}"
     return {"auth_url": auth_url}
 
 
-@router.get("?spotify/callback")
+@router.get("/spotify/callback")
 async def spotify_callback(code):
     headers = get_spotify_access_token(code)
 
