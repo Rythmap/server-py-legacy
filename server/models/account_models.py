@@ -1,5 +1,4 @@
 from typing import Literal, Union
-
 from pydantic import BaseModel, EmailStr
 
 
@@ -46,3 +45,4 @@ class ConfirmEmail(BaseModel):
 class ConfirmRecovery(BaseModel):
     recovery_token: str
     new_password: str
+

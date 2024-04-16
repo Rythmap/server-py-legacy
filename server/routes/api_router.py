@@ -9,6 +9,7 @@ from api.account.register import router as register
 from api.account.reset_token import router as reset_token
 from api.account.email_confirm import router as email_confirm
 from api.account.pswdrecovery import router as pswdrecovery
+from api.account.upload_avatar import router as upload_avatar
 
 router = APIRouter(tags=["Rythmap"])
 
@@ -23,3 +24,4 @@ router.include_router(change_password)
 router.include_router(delete)
 router.include_router(email_confirm)
 router.include_router(pswdrecovery)
+router.include_router(upload_avatar)

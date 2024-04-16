@@ -8,3 +8,4 @@ pydantic[email]
 pymongo
 passlib
 bcrypt
+python-multipart

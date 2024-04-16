@@ -1,6 +1,7 @@
-import os
 import toml
 from fastapi_mail import ConnectionConfig
+from passlib.context import CryptContext
+from pymongo import MongoClient
 
 # Read and parse the TOML configuration file
 data = toml.load("config.toml")
@@ -11,6 +12,8 @@ update_accounts_interval = data.get("update_accounts_interval", 10)
 websocket_interval = data.get("websocket_interval", 1)
 path_prefix_end = data.get("path_prefix_end", "/")
 max_distance = data.get("max_distance", 5)
+max_upload_size = data.get("max_upload_size", 157286400)
+user_data_directory = data.get("user_data_directory")
 
 spotify_client_id = data.get("spotify_client_id", "")
 spotify_client_secret = data.get("spotify_client_secret", "")
@@ -34,14 +37,8 @@ if email_enabled:
         MAIL_STARTTLS=fastapi_mail_settings.get("MAIL_STARTTLS", True),
         MAIL_SSL_TLS=fastapi_mail_settings.get("MAIL_SSL_TLS", False),
         USE_CREDENTIALS=fastapi_mail_settings.get("USE_CREDENTIALS", True),
-        VALIDATE_CERTS=fastapi_mail_settings.get("VALIDATE_CERTS", True)
+        VALIDATE_CERTS=fastapi_mail_settings.get("VALIDATE_CERTS", True),
     )
-
-# Additional code for passlib and pymongo
-import os
-
-from passlib.context import CryptContext
-from pymongo import MongoClient
 
 client = MongoClient(mongo_private_url)
 

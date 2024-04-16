@@ -3,6 +3,8 @@ update_accounts_interval = 10
 websocket_interval = 1
 path_prefix_end = "/"
 max_distance = 5
+max_upload_size = 157286400
+user_data_directory = ""
 
 spotify_client_id = ""
 spotify_client_secret = ""
