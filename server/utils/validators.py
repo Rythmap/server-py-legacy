@@ -1,7 +1,7 @@
 
 import re
 from fastapi import HTTPException
-
+import bson
 from utils.config_parser import *
 from utils.errors import *
 
@@ -45,7 +45,7 @@ def get_user_by_nickname(nickname: str):
 
 
 def get_user_by_token(token: str):
-    user = account_collection.find_one({"token": token})
+    user = account_collection.find_one({"token": bson.string_type(token)})
     if not user:
         raise HTTPException(status_code=INVALID_TOKEN, detail=INVALID_TOKEN_DETAIL)
     return user
