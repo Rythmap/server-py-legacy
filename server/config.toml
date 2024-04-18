@@ -1,28 +1,31 @@
-server_address = ""
-update_accounts_interval = 10
-websocket_interval = 1
-path_prefix_end = "/"
-max_distance = 5
-max_upload_size = 157286400
-user_data_directory = ""
+# Server settings
+update_accounts_interval = 10  # Interval in minutes for updating accounts in websocket
+websocket_interval = 1  # Interval in seconds for WebSocket connections
+path_prefix_end = "/"  # The end character for the path prefix
+max_distance = 5  # Maximum distance (radius) in which people will return in a websocket
+max_upload_size = 157286400  # Maximum size allowed for file uploads 
+user_data_directory = ""  # Directory path for storing user data
 
-spotify_client_id = ""
-spotify_client_secret = ""
-spotify_redirect_uri = ""
+# Spotify API settings
+spotify_client_id = ""  # Client ID for Spotify API authentication
+spotify_client_secret = ""  # Client secret for Spotify API authentication
+spotify_redirect_uri = ""  # Redirect URI for Spotify API authentication
 
-mongo_private_url = "mongodb://localhost:27017/"
+# MongoDB connection string
+mongo_private_url = "mongodb://localhost:27017/"  # MongoDB connection URL
 
-email_enabled = false
+# Email settings
+email_enabled = false  # Flag to enable or disable email functionality
 
+# FastAPI Mail settings
 [fastapi_mail]
-MAIL_NICKNAME = ""
-MAIL_PASSWORD = ""
-MAIL_FROM = ""
-MAIL_PORT = 587
-MAIL_SERVER = ""
-MAIL_FROM_NAME = ""
-MAIL_STARTTLS = true
-MAIL_SSL_TLS = false
-USE_CREDENTIALS = true
-VALIDATE_CERTS = true
-
+MAIL_NICKNAME = ""  # Nickname for the email account
+MAIL_PASSWORD = ""  # Password for the email account
+MAIL_FROM = ""  # Email address from which emails will be sent
+MAIL_PORT = 587  # Port for email server connection
+MAIL_SERVER = ""  # SMTP server address for sending emails
+MAIL_FROM_NAME = ""  # Name displayed as the sender of the email
+MAIL_STARTTLS = true  # Flag to enable STARTTLS for secure email transmission
+MAIL_SSL_TLS = false  # Flag to enable SSL/TLS for secure email transmission
+USE_CREDENTIALS = true  # Flag to use credentials for email authentication
+VALIDATE_CERTS = true  # Flag to validate email server certificates

@@ -45,7 +45,6 @@ client = MongoClient(mongo_private_url)
 db = client["melomap"]
 
 account_collection = db["accounts"]
-
 recovery_token_collection = db["recovery_tokens"]
 confirm_token_collection = db["confirm_tokens"]
 

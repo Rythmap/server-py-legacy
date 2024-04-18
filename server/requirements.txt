@@ -9,3 +9,4 @@ pymongo
 passlib
 bcrypt
 python-multipart
+toml
